@@ -84,24 +84,19 @@ void do_read(int cfd, int epfd)
         //关闭套接字,从epoll树上删除cfd
         disconnect(cfd, epfd);
     }
-    else if (len == -1)
-    {
-        //关闭套接字，从epoll树上删除cfd
-        perror("recv error");
-        exit(1);
-    }
     else
     {
         printf("请求行数据： %s", line);
+        printf("==============请求头===============\n");
         //还有数据没读完
         //继续读
         while (len)
         {
             char buf[1024] = {0};
             len = get_line(cfd, buf, sizeof(buf));
-            printf("=========请求头=========\n");
             printf("-----: %s", buf);
         }
+        printf("==============The End==============\n");
     }
     //请求行： get /xxx http/1.1
     //判断是否为get请求
@@ -135,6 +130,8 @@ void http_request(const char* request, int cfd)
 
     printf("method = %s, path = %s, protocol = %s\n", method, path, protocol);
     //转码  将不能识别的中文乱码 -> 中文
+    //解码 
+    decode_str(path, path);
     //去掉path中的/
     char* file = path + 1;
     //如果没有指定访问的资源，默认显示资源目录中的内容
@@ -214,6 +211,8 @@ void send_dir(int cfd, const char* dirname)
                     enstr, name, (long)st.st_size);
         }
         //字符串拼接
+        send(cfd, buf, strlen(buf), 0);
+        memset(buf, 0, sizeof(buf));
     }
     sprintf(buf+strlen(buf), "</table></body></html>");
     send(cfd, buf, strlen(buf), 0);
@@ -313,10 +312,6 @@ int get_line(int sock, char* buf, int size)
         }
     }
     buf[i] = '\0';
-    if (n == -1)
-    {
-        i = -1;
-    }
     return i;
 }
 

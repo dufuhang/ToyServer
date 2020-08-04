@@ -31,12 +31,12 @@ void epoll_run(int port)
     struct epoll_event all[MAXSIZE];
     
     //test
-    printf("create epoll successful!\n");
+    //printf("create epoll successful!\n");
 
     while (1)
     {
         //test
-        printf("in while  successful!\n");
+        //printf("in while  successful!\n");
 
         int ret = epoll_wait(epfd, all, MAXSIZE, -1);
         if (ret == -1)

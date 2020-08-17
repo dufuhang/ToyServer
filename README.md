@@ -1,5 +1,10 @@
-#### Environment
-    
+#### 环境
+
+<img src="/Users/dufuhang/Desktop/CODE-REPO/ToyServer/doc/ENV.png" alt="ENV" style="zoom: 50%;" />
+
+- 编辑器：Vim + VSCode
+- 版本控制：git
+
 #### 主要函数
 - `main():` 主函数，修改进程的工作目录，启动epoll模型
 

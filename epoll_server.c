@@ -138,7 +138,7 @@ void http_request(const char* request, int cfd)
     if (strcmp(path, "/") == 0)
     {
         //file的值，资源目录的当前位置
-        file = "./";
+        file = "./doc/index.html";
     }
     //获取文件属性
     struct stat st;
